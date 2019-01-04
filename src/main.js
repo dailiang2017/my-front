@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import global from './common/views/Global'
+import store from './store'
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
 Vue.config.productionTip = false
@@ -18,6 +19,7 @@ Vue.prototype.$global = global
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

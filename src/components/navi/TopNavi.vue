@@ -1,55 +1,62 @@
 <template>
-  <div class="container">
+  <div class="container" :style="{'background':themeColor}" :class="$store.state.constant.collapse?'menu-bar-collapse-width':'menu-bar-width'">
     <!-- 导航收缩 -->
     <span class="hamburger-container" :style="{'background':themeColor}">
-      <hamburger :onClick="onCollapse" :isActive="collapse"></hamburger>
+      <Hamburger :onClick="onCollapse" :isActive="collapse"></Hamburger>
     </span>
     <!-- 导航菜单 -->
     <span class="nav-bar">
-      <el-menu :default-active="defaultActiveIndex" :router="true">
-        <el-menu-item >工作台</el-menu-item>
-        <el-menu-item >企业管理</el-menu-item>
-        <el-menu-item >订单管理</el-menu-item>
-        <el-menu-item >系统管理</el-menu-item>
+      <el-menu :default-active="activeIndex" class="el-menu-demo"
+               :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="handleSelect()">
+        <el-menu-item index="1" >11111111</el-menu-item>
+        <el-menu-item index="2" @click="openWindow('https://gitee.com/liuge1988/kitty')">项目</el-menu-item>
+        <el-menu-item index="3" @click="openWindow('https://gitee.com/liuge1988/kitty/wikis/Home')">文档</el-menu-item>
+        <el-menu-item index="4" @click="openWindow('https://www.cnblogs.com/xifengxiaoma/')">博客</el-menu-item>
       </el-menu>
     </span>
     <span class="tool-bar">
       <!-- 用户信息 -->
-      <el-dropdown class="user-info-dropdown" trigger="hover" @command="handleCommand">
+      <el-dropdown class="user-info-dropdown" trigger="hover">
         <span class="el-dropdown-link"><img :src="this.userAvatar" /> {{userName}}</span>
         <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/profile')"><span style="color: #555;font-size: 14px;">个人信息</span></div>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div @click="jumpTo('/user/changepwd')"><span style="color: #555;font-size: 14px;">修改密码</span></div>
-            </el-dropdown-item>
-            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
+          <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
+        </el-dropdown-menu>
       </el-dropdown>
     </span>
   </div>
 </template>
 
 <script>
-  import Hamburger from "../hamburger/Hamburger";
+  import { mapState } from 'vuex'
+  import Hamburger from '../hamburger/Hamburger';
+  import loginJs from '../../api/Login'
   export default {
     name: "TopNavi",
     components: {Hamburger},
     data(){
       return {
-        loading: false,
-        companyName: '',
-        nickname: '',
-        defaultActiveIndex: '/',
-        homeMenu: false,
-        messageCount: 5
+        userName: "Louis",
+        userAvatar: "",
+        activeIndex: '1',
+        backupVisible: false
       }
     },
     methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+        loginJs.findAll().then((resp) => {
+          if (resp.status === 200 && resp.data.success === true) {
+            // this.$message.info('登录成功！')
+            // this.$router.push('/Home')
+          }
+        })
+      },
+      openWindow(url) {
+        window.open(url)
+      },
       // 折叠导航栏
       onCollapse: function() {
-        // this.$store.commit('onCollapse')
+        this.$store.commit('onCollapse')
       },
       jumpTo: function(url){
         this.$router.push(url); //用go刷新
@@ -76,6 +83,12 @@
         this.userName = user
         this.userAvatar = require("@/assets/user.jpg")
       }
+    },
+    computed:{
+      ...mapState({
+        themeColor: state => state.constant.themeColor,
+        collapse: state => state.constant.collapse
+      })
     }
   }
 </script>

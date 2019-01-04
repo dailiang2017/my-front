@@ -3,7 +3,7 @@ import config from './config'
 import Cookies from 'js-cookie'
 import router from '@/router'
 
-// 使用vuex做全局loading时使用
+// 使用vuex做全局loading时使用process.env.API_ROOT
 // import store from '@/store'
 export default function $axios (options) {
   return new Promise((resolve, reject) => {
