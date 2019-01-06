@@ -10,6 +10,8 @@ import global from './common/views/Global'
 import store from './store'
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
+axios.defaults.withCredentials=true;//让ajax携带cookie
+axios.defaults.baseURL=global.baseurl
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$http = axios

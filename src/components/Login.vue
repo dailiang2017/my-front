@@ -19,8 +19,8 @@ export default {
     return {
       loading: false,
       loginForm: {
-        username: '',
-        password: ''
+        username: 'dailiang',
+        password: '123456'
       },
       fieldRules: {
         username: [
@@ -39,7 +39,7 @@ export default {
         if (valid) {
           this.loading = true
           let userInfo = {username: this.loginForm.username, password: this.loginForm.password}
-          this.$http.post(this.$global.baseurl + '/api/user/login', userInfo).then((resp) => {
+          this.$http.post('/api/user/login', userInfo).then((resp) => {
             if (resp.status === 200 && resp.data.success === true) {
               // this.$message.info('登录成功！')
               this.$router.push('/Home')

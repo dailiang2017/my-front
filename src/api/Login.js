@@ -1,4 +1,4 @@
-import axios from '../common/js/axios'
+import axios from 'axios'
 export default {
   findAll () {
     return axios({
