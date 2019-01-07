@@ -3,7 +3,7 @@
     <!-- 头部head区域 -->
     <TopNavi></TopNavi>
     <!-- 左边导航菜单栏 -->
-    <!--<LeftNavi></LeftNavi>-->
+    <LeftNavi></LeftNavi>
     <!-- 主内容区域 -->
     <!--<MainContent></MainContent>-->
   </div>

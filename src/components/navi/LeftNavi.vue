@@ -17,6 +17,7 @@
 <script>
   import { mapState } from 'vuex'
   import MenuTree from './MenuTree'
+  import Menujs from '../../api/navi/Menu'
   export default {
     name: "LeftNavi",
     components: {
@@ -31,6 +32,13 @@
       },
       handleselect(a, b) {
         console.log('handleselect')
+      },
+      findUserMenu() {
+        Menujs.queryUserMenu().then((resp) => {
+          if (resp.status === 200 && resp.data.success === true) {
+            this.$store.commit('setNavTree', res.data.data)
+          }
+        })
       }
     },
     computed: {
@@ -40,6 +48,9 @@
         collapse: state=>state.constant.collapse,
         navTree: state=>state.menu.navTree
       })
+    },
+    mounted: function () {
+      this.findUserMenu()
     }
   }
 </script>

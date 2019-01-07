@@ -1,7 +1,10 @@
 import axios from 'axios'
 
 export default {
-  findMenuTree() {
-
+  queryUserMenu() {
+    return axios({
+      url: '/api/user/queryUserMenu',
+      method: 'get'
+    })
   }
 }
