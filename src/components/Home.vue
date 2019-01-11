@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import TopNavi from './TopNavi';
-  import LeftNavi from './LeftNavi';
-  import MainContent from './MainContent';
+  import TopNavi from './navi/TopNavi';
+  import LeftNavi from './navi/LeftNavi';
+  import MainContent from './navi/MainContent';
   export default {
     name: "Home",
     components: {MainContent, LeftNavi, TopNavi}

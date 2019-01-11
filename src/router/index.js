@@ -4,8 +4,9 @@ import Cookies from 'js-cookie'
 import api from '@/common/js/api'
 import store from '@/store/index'
 import Login from '@/components/Login'
-import Home from '@/components/navi/Home'
+import Home from '@/components/Home'
 import Intro from '@/components/intro/Intro'
+import constant from '../store/modules/constant'
 
 Vue.use(Router)
 
@@ -32,8 +33,13 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // let aa = Cookies.get('token')
-  addDynamicMenuAndRoutes(to, from)
+  let aa = Cookies.get('token')
+  if (to.path == '/') {
+    next()
+  } else {
+    addDynamicMenuAndRoutes(to, from)
+    next()
+  }
 })
 
 /**
@@ -42,14 +48,20 @@ router.beforeEach((to, from, next) => {
  * @param from
  */
 function addDynamicMenuAndRoutes(to, from) {
+  if(store.state.constant.menuRouteLoaded) {
+    console.log('动态菜单和路由已经存在.')
+    return
+  }
   api.menu.queryUserMenu().then((resp) => {
     if (resp.status === 200 && resp.data.success === true) {
       // 添加动态路由
       let routes = addDynamicRoutes(resp.data.data)
       router.options.routes[1].children = router.options.routes[1].children.concat(routes)
+      // router.options.routes[1].children = router.options.routes[1].children.concat(menuData)
+      console.log(router.options.routes);
       router.addRoutes(router.options.routes)
+      store.commit('setMenuRouteLoaded', true)
       store.commit('setNavTree', resp.data.data)
-      next({ ...to, replace: true })
     }
   })
 }
@@ -60,18 +72,21 @@ function addDynamicRoutes (menuList = [], routes = []) {
     if (menuList[i].children && menuList[i].children.length >= 1) {
       temp = temp.concat(menuList[i].children)
     } else if (menuList[i].url && /\S/.test(menuList[i].url)) {
-      menuList[i].url = menuList[i].url.replace(/^\//, '')
+      // menuList[i].url = menuList[i].url.replace(/^\//, '')
       // 创建路由配置
       var route = {
         path: menuList[i].url,
         component: null,
-        name: menuList[i].name
+        name: menuList[i].name,
+        meta: {
+          icon: menuList[i].icon
+        }
       }
       try {
         // 根据菜单URL动态加载vue组件，这里要求vue组件须按照url路径存储
         // 如url="sys/user"，则组件路径应是"@/views/sys/user.vue",否则组件加载不到
         let array = menuList[i].url.split('/')
-        let url = array[0].substring(0,1)+array[0].substring(1) + '/' + array[1].substring(0,1).toUpperCase()+array[1].substring(1)
+        let url = array[1].substring(0,1)+array[1].substring(1) + '/' + array[2].substring(0,1).toUpperCase()+array[2].substring(1)
         route['component'] = resolve => require([`@/components/${url}`], resolve)
       } catch (e) {}
       routes.push(route)
@@ -86,4 +101,8 @@ function addDynamicRoutes (menuList = [], routes = []) {
   }
   return routes
 }
+
+const menuData = [
+  {id:1,path:'/sys/user',component: require('@/components/sys/User.vue'),name:'用户',icon:'el-icon-service'}
+]
 export default router
