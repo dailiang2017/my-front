@@ -4,11 +4,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import constant from './modules/constant'
-import menu from './modules/menu'
+import menuConstant from './modules/menuConstant'
 
 export default new Vuex.Store({
   modules: {
     constant,
-    menu
+    menuConstant
   }
 })

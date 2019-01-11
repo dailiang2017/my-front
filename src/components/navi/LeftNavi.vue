@@ -2,7 +2,7 @@
   <div class="menu-bar-container">
     <!-- logo -->
     <div class="logo" :style="{'background-color':themeColor}" :class="collapse?'menu-bar-collapse-width':'menu-bar-width'"
-         @click="$router.push('/')">
+         @click="$router.push('/Home')">
       <img v-if="collapse" src="@/assets/logo.png"/> <div>{{collapse?'':appName}}</div>
     </div>
     <!-- 导航菜单 -->
@@ -32,13 +32,6 @@
       },
       handleselect(a, b) {
         console.log('handleselect')
-      },
-      findUserMenu() {
-        Menujs.queryUserMenu().then((resp) => {
-          if (resp.status === 200 && resp.data.success === true) {
-            this.$store.commit('setNavTree', res.data.data)
-          }
-        })
       }
     },
     computed: {
@@ -46,14 +39,46 @@
         appName: state=>state.constant.appName,
         themeColor: state=>state.constant.themeColor,
         collapse: state=>state.constant.collapse,
-        navTree: state=>state.menu.navTree
+        navTree: state=>state.menuConstant.navTree
       })
-    },
-    mounted: function () {
-      this.findUserMenu()
     }
   }
 </script>
 
 <style scoped>
+  .menu-bar-container {
+  }
+  .logo {
+    position:absolute;
+    top: 0px;
+    height: 60px;
+    line-height: 60px;
+    background: #545c64;
+    cursor:pointer;
+  }
+  .el-menu {
+    position:absolute;
+    top: 60px;
+    bottom: 0px;
+    text-align: left;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 0px;
+    margin: 10px 10px 10px 10px;
+    float: left;
+  }
+  div {
+    font-size: 25px;
+    color: white;
+    text-align: left;
+    padding-left: 20px;
+  }
+  .menu-bar-width {
+    width: 200px;
+  }
+  .menu-bar-collapse-width {
+    width: 65px;
+  }
 </style>

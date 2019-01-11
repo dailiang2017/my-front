@@ -24,11 +24,15 @@ export default {
   methods: {
     handleRoute (menu) {
     // 通过菜单URL跳转至指定路由
+    this.$router.push("/")
     this.$router.push(menu.url)
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .el-submenu, .el-menu-item {
+    background-color: #3c4b5a44;
+  }
 </style>

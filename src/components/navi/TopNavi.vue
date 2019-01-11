@@ -93,7 +93,7 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .container {
     position: absolute;
     left: 200px;
