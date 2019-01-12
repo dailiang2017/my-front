@@ -73,7 +73,7 @@
     font-size: 25px;
     color: white;
     text-align: left;
-    padding-left: 20px;
+    /*padding-left: 20px;*/
   }
   .menu-bar-width {
     width: 200px;

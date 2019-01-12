@@ -7,11 +7,11 @@
     <!-- 导航菜单 -->
     <span class="nav-bar">
       <el-menu :default-active="activeIndex" class="el-menu-demo"
-               :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="handleSelect()">
-        <el-menu-item index="1" >11111111</el-menu-item>
-        <el-menu-item index="2" @click="openWindow('https://gitee.com/liuge1988/kitty')">项目</el-menu-item>
-        <el-menu-item index="3" @click="openWindow('https://gitee.com/liuge1988/kitty/wikis/Home')">文档</el-menu-item>
-        <el-menu-item index="4" @click="openWindow('https://www.cnblogs.com/xifengxiaoma/')">博客</el-menu-item>
+               :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
+        <el-menu-item index="1" @click="$router.push('/Home')"><i class="fa fa-home fa-lg"></i>  </el-menu-item>
+        <!--<el-menu-item index="2" @click="openWindow('https://gitee.com/liuge1988/kitty')">项目</el-menu-item>-->
+        <!--<el-menu-item index="3" @click="openWindow('https://gitee.com/liuge1988/kitty/wikis/Home')">文档</el-menu-item>-->
+        <!--<el-menu-item index="4" @click="openWindow('https://www.cnblogs.com/xifengxiaoma/')">博客</el-menu-item>-->
       </el-menu>
     </span>
     <span class="tool-bar">
@@ -42,14 +42,11 @@
       }
     },
     methods: {
+      selectNavBar(key, keyPath) {
+        console.log(key, keyPath)
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
-        loginJs.findAll().then((resp) => {
-          if (resp.status === 200 && resp.data.success === true) {
-            // this.$message.info('登录成功！')
-            // this.$router.push('/Home')
-          }
-        })
       },
       openWindow(url) {
         window.open(url)

@@ -33,12 +33,22 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let aa = Cookies.get('token')
+  let token = api.cookie.getToken()
   if (to.path == '/') {
-    next()
+    if (token) {
+      // 如果访问登录页面，此时会话信息存在，则直接跳转到首页
+      next({ path: '/Home' })
+    } else {
+      next()
+    }
   } else {
-    addDynamicMenuAndRoutes(to, from)
-    next()
+    if (!token) {
+      // 会话信息不存在，则说明登陆过期，跳转到登录页面
+      next({ path: '/' })
+    } else {
+      addDynamicMenuAndRoutes(to, from)
+      next()
+    }
   }
 })
 
