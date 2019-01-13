@@ -64,11 +64,11 @@
           type: "warning"
         })
           .then(() => {
-            // sessionStorage.removeItem("user")
-            this.$router.push("/")
-            // this.$api.login.logout().then((res) => {
-            // }).catch(function(res) {
-            // })
+            this.$http.post('/api/user/loginOut').then((resp) => {
+              if (resp.status === 200 && resp.data.success === true) {
+                this.$router.push("/")
+              }
+            })
           })
           .catch(() => {})
       }

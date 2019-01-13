@@ -1,5 +1,6 @@
 <template>
   <div class="container" :class="$store.state.constant.collapse?'menu-bar-collapse-width':'menu-bar-width'">
+    <breadcrumb></breadcrumb>
     <transition name="fade" mode="out-in">
       <router-view class="content"></router-view>
     </transition>
@@ -7,9 +8,13 @@
 </template>
 
 <script>
-    export default {
-        name: "MainContent"
-    }
+  import breadcrumb from '@/components/breadcrumb/Breadcrumb'
+  import Breadcrumb from "../breadcrumb/Breadcrumb";
+  export default {
+    name: 'MainContent',
+    components: {Breadcrumb},
+    comments: {breadcrumb}
+  }
 </script>
 
 <style scoped lang="scss">

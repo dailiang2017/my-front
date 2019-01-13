@@ -41,7 +41,7 @@ export default {
           let userInfo = {username: this.loginForm.username, password: this.loginForm.password}
           this.$http.post('/api/user/login', userInfo).then((resp) => {
             if (resp.status === 200 && resp.data.success === true) {
-              // this.$message.info('登录成功！')
+              this.$store.commit('setMenuRouteLoaded', false) // 要求重新加载导航菜单
               this.$router.push('/Home')
             }
           })
