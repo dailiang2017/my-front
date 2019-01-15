@@ -9,46 +9,46 @@
           <el-button type="primary" @click="queryPage" icon="el-icon-search">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="clear" icon="el-icon-plus">重置</el-button>
+          <el-button type="primary" @click="clear" icon="el-icon-refresh">重置</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="add" icon="el-icon-plus">新增</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table style="width: 100%" :data="userList">
-      <el-table-column prop="username" label="用户名"></el-table-column>
-      <el-table-column prop="realname" label="姓名"></el-table-column>
-      <el-table-column prop="status" label="状态" :formatter="statusFormat"></el-table-column>
-      <el-table-column prop="mobile" label="手机号"></el-table-column>
-      <el-table-column prop="email" label="电子邮箱"></el-table-column>
-      <el-table-column prop="adress" label="地址"></el-table-column>
-      <el-table-column prop="remark" label="备注"></el-table-column>
-    </el-table>
-    <div class="pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="1"
-        :page-sizes="[20, 50, 100, 20]"
-        :page-size="form.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="form.pageTotal">
-      </el-pagination>
-    </div>
+    <CommonTable
+              :data="userList" :columns="columns" :pageTotal="form.pageTotal" @handleEdit="handleEdit" @handleDelete="handleDelete">
+    </CommonTable>
 
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-      <el-form :model="userForm">
-        <el-form-item label="用户名" :label-width="formLabelWidth">
-          <el-input v-model="userForm.username" autocomplete="off"></el-input>
+    <!--新增编辑界面-->
+    <el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+      <el-form :model="userForm" label-width="80px" :rules="dataFormRules" ref="userForm" :size="size"
+               label-position="right">
+        <el-form-item label="ID" prop="id" v-if="false">
+          <el-input v-model="userForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
-          <el-input v-model="userForm.realname" autocomplete="off"></el-input>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="userForm.username" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="realname">
+          <el-input v-model="userForm.realname" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+          <el-input v-model="userForm.mobile" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="userForm.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="地址" prop="adress">
+          <el-input v-model="userForm.adress" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="userForm.remark" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitForm">{{$t('action.submit')}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -56,7 +56,11 @@
 
 <script>
   import typeFormat from '@/common/js/typeFormat'
+  import CommonTable from '@/common/views/CommonTable'
   export default {
+    components: {
+      CommonTable
+    },
     data() {
       return {
         size: 'small',
@@ -67,22 +71,40 @@
           pageTotal: 0
         },
         userList: [],
+        columns: [
+          {prop:"username", label:"用户名", minWidth:120},
+          {prop:"realname", label:"姓名", minWidth:120},
+          {prop:"mobile", label:"手机", minWidth:100},
+          {prop:"email", label:"邮箱", minWidth:120},
+          {prop:"adress", label:"地址", minWidth:100},
+          {prop:"status", label:"状态", minWidth:70, formatter: this.statusFormat},
+          {prop:"remark", label:"备注", minWidth:70}
+        ],
         userForm: {
           username: '',
-          realname: ''
+          realname: '',
+          mobile: '',
+          email: '',
+          adress: '',
+          remark: ''
         },
-        dialogFormVisible: false
+        dialogVisible: false,
+        operation: true,
+        formLabelWidth: '120px',
+        dataFormRules: {
+          username: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          realname: [
+            { required: true, message: '请输入姓名', trigger: 'blur' }
+          ]
+        },
       }
     },
+    create() {
+      this.queryPage()
+    },
     methods: {
-      handleSizeChange: function (pageSize) {
-        this.form.pageSize = pageSize
-        this.queryPage()
-      },
-      handleCurrentChange: function (pageNo) {
-        this.form.pageNo = pageNo
-        this.queryPage()
-      },
       queryPage: function() {
         this.$http.post('/api/user/queryUserPage', this.form).then((resp) => {
           if (resp.status === 200 && resp.data.success === true) {
@@ -98,8 +120,55 @@
           }
         })
       },
-      add: function() {
+      userFormClear: function () {
+        Object.keys(this.userForm).forEach((k) => {
+          this.userForm[k] = ''
+        })
+      },
+      handleEdit: function(record) {
+        this.dialogVisible = true
+        this.operation = false
+        this.$nextTick(()=>{
+          this.$refs['userForm'].resetFields();
+        })
+        this.userForm = Object.assign({}, record.row)
+      },
+      handleDelete: function() {
 
+      },
+      add: function() {
+        this.dialogVisible = truea
+        this.operation = true
+        this.$nextTick(()=>{
+          this.$refs['userForm'].resetFields();
+          this.userFormClear()
+        })
+      },
+      submitForm: function () {
+        let params = Object.assign({}, this.userForm)
+        this.$refs['userForm'].validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              // 新增
+              let url = '/api/user/insert'
+              let id = params.id
+              if (id) {
+                // 编辑
+                url = '/api/user/update'
+              }
+              this.$http.post(url, params).then((resp) => {
+                if(resp.status === 200 && resp.data.success === true) {
+                  this.$message({ message: '操作成功', type: 'success' })
+                  this.dialogVisible = false
+                  this.$refs['userForm'].resetFields()
+                  this.queryPage()
+                } else {
+                  this.$message({message: '操作失败, ' + resp.msg, type: 'error'})
+                }
+              })
+            })
+          }
+        })
       },
       statusFormat: function (row, column) {
         let status = row[column.property]

@@ -11,6 +11,7 @@ import axios from 'axios'
 import global from './common/views/Global'
 import store from './store'
 import api from './common/js/baseApi'
+import i18n from './i18n'
 
 // axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
 axios.defaults.withCredentials=true;//让ajax携带cookie
@@ -26,6 +27,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: { App },
   template: '<App/>'
 })
