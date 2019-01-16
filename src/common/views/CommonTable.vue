@@ -130,14 +130,14 @@
           this.delete(ids)
         },
         // 删除操作
-        delete: function (ids) {
+        delete: function (idList) {
           this.$confirm('确认删除选中记录吗？', '提示', {
             type: 'warning'
           }).then(() => {
-            let params = []
-            let idArray = (ids+'').split(',')
+            let ids = []
+            let idArray = (idList+'').split(',')
             for(var i=0; i<idArray.length; i++) {
-              params.push({'id':idArray[i]})
+              ids.push(idArray[i])
             }
             this.loading = true
             let callback = res => {
@@ -149,7 +149,7 @@
               }
               this.loading = false
             }
-            this.$emit('handleDelete', {params:params, callback:callback})
+            this.$emit('handleDelete', {ids, callback:callback})
           }).catch(() => {
           })
         }

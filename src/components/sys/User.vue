@@ -101,7 +101,7 @@
         },
       }
     },
-    create() {
+    created() {
       this.queryPage()
     },
     methods: {
@@ -133,11 +133,21 @@
         })
         this.userForm = Object.assign({}, record.row)
       },
-      handleDelete: function() {
-
+      handleDelete: function(data) {
+        let ids = data.ids
+        let id = ids[0]
+        this.$http.get('/api/user/delete/' + id).then((resp) => {
+          if(resp.status === 200 && resp.data.success === true) {
+            this.$message({ message: '操作成功', type: 'success' })
+            this.dialogVisible = false
+            this.queryPage()
+          } else {
+            this.$message({message: '操作失败, ' + resp.data.msg, type: 'error'})
+          }
+        })
       },
       add: function() {
-        this.dialogVisible = truea
+        this.dialogVisible = true
         this.operation = true
         this.$nextTick(()=>{
           this.$refs['userForm'].resetFields();
@@ -163,7 +173,7 @@
                   this.$refs['userForm'].resetFields()
                   this.queryPage()
                 } else {
-                  this.$message({message: '操作失败, ' + resp.msg, type: 'error'})
+                  this.$message({message: '操作失败, ' + resp.data.msg, type: 'error'})
                 }
               })
             })
