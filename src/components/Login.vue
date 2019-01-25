@@ -42,6 +42,7 @@ export default {
           this.$http.post('/api/user/login', userInfo).then((resp) => {
             if (resp.status === 200 && resp.data.success === true) {
               this.$store.commit('setMenuRouteLoaded', false) // 要求重新加载导航菜单
+              sessionStorage.setItem(this.$global.TOKEN_KEY, resp.data.data)
               this.$router.push('/Home')
             }
           })

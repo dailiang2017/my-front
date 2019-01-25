@@ -1,4 +1,4 @@
-*{margin:0;padding:0;}
+* {margin-top: 0;margin-left: 0;}
 html,body,#app,.wrapper{
     width:100%;
     height:100%;
@@ -7,152 +7,98 @@ html,body,#app,.wrapper{
 body{
     font-family:"Helvetica Neue",Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
 }
-a{text-decoration: none}
-.content{
-    background: none repeat scroll 0 0 #fff;
-    position: absolute;
-    left: 250px;
-    right: 0;
-    top: 70px;
-    bottom:0;
-    width: auto;
-    padding:40px;
-    box-sizing: border-box;
-    overflow-y: scroll;
-}
-.crumbs{
-    margin-bottom: 20px;
-}
-.pagination{
-    margin: 20px 0;
-    text-align: right;
-}
-.plugins-tips{
-    padding:20px 10px;
-    margin-bottom: 20px;
-}
-.el-button+.el-tooltip {
-    margin-left: 10px;
-}
-.mgb20{
-    margin-bottom: 20px;
+
+/* -----panel开始-----*/
+.panel {
+  border-radius: 0;
+  padding: 15px 20px 15px 20px;
+  border-width: 0;
 }
 
-.move-enter-active,.move-leave-active{
-    transition: opacity .5s;
-}
-.move-enter,.move-leave{
-    opacity: 0;
-}
-/*BaseForm*/
-.form-box{
-    width:600px;
-}
-.form-box .line{
-    text-align: center;
-}
-.el-time-panel__content::after, .el-time-panel__content::before {
-    margin-top: -7px;
-}
-/*Readme*/
-.ms-doc .el-checkbox__input.is-disabled+.el-checkbox__label{
-    color: #333;
-    cursor: pointer;
-}
-/*Upload*/
-.pure-button{
-    width:150px;
-    height:40px;
-    line-height: 40px;
-    text-align: center;
-    color: #fff;
-    border-radius: 3px;
-}
-.g-core-image-corp-container .info-aside{
-    height:45px;
-}
-.el-upload--text {
-    background-color: #fff;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    box-sizing: border-box;
-    width: 360px;
-    height: 180px;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-.el-upload--text .el-icon-upload {
-    font-size: 67px;
-    color: #97a8be;
-    margin: 40px 0 16px;
-    line-height: 50px;
-}
-.el-upload--text {
-    color: #97a8be;
-    font-size: 14px;
-    text-align: center;
-}
-.el-upload--text em {
-    font-style: normal;
-}
-/*VueEditor*/
-.ql-container{
-    min-height: 400px;
-}
-.ql-snow .ql-tooltip{
-    transform: translateX(117.5px) translateY(10px) !important;
-}
-.editor-btn{
-    margin-top: 20px;
-}
-/* 弹窗X关闭样式 */
-.el-dialog__headerbtn{
-	background:transparent;border: none;
-}
-/*下拉框添加样式间距修改*/
-.el-select .el-tag {
-    margin-top: -2px !important;
-    margin-bottom: 8px !important;
+.panel .panel-header {
+  height: 38px;
+  padding: 0;
+  background-color: #f2f2f2;
+  background-image: none;
+  border: 1px solid #C3C3D6;
+  filter: none;
+  position: relative;
 }
 
-
-/*搜索区域*/
-.toolbar .el-collapse .operate-btn-area{
-    height:68px; overflow: hidden;
-}
-.toolbar .el-collapse .operate-btn-area .green_button{
-    height: 28px!important;
-    overflow: hidden;
-    padding: 0 15px!important;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #fff!important;
-    border: 1px solid #00c185!important;
-    color: #00c185!important;
-    font-size: 14px!important;
-    margin: 20px 0px 20px 20px!important;
-}
-.toolbar-search-area .add .el-collapse-item .el-collapse-item__header{
-    position: absolute;
-    display: initial;
-    right: 0px!important;
-    top: 15px!important;
-    color: #00c185;
+.panel-search, .panel-result {
+  border-right: 1px solid #C5C5C5;
+  display: block;
+  height: 38px;
+  position: absolute;
+  width: 40px;
+  text-align: center;
 }
 
-/*表格 body 字体大小*/
-.el-table {
-  border: 0px;
+.panel-search i {
+  margin-top: 10px;
 }
-.el-table td>.cell{
-    font-size:12px;
+
+.panel-header h3 {
+  padding-left: 45px;
+  line-height: 38px;
+  text-align: left;
 }
-.el-table td,.el-table th{
-  padding:5px 18px;
+
+.panel .panel-body {
+  padding: 0;
+  border: 1px solid #C3C3D6;
+  margin-top: -1px;
+  background: #FFFFFF;
 }
-.el-table tr:hover{
-  background: #f6faff
+
+.panel-header .panel-bar {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+/* ----- panel结束-----*/
+
+/* ----- row|col开始-----*/
+.item-right {
+  text-align: right;
+}
+.col-right {
+  text-align: right;
+}
+.col-left {
+  text-align: left;
+}
+.el-col {
+  margin-left: 0px;
+  margin-top: 10px;
+}
+/* ----- row|col结束-----*/
+
+
+/* ----- el-container开始-----*/
+.el-container .el-aside {
+  /*background-color: #D3DCE6;*/
+  color: #333;
+  text-align: center;
+  line-height: 200px;
+  border: 1px solid #C3C3D6;
+}
+/* ----- el-container结束-----*/
+
+/* ----- 宽度开始-----*/
+.w60 {
+  width: 60%;
+}
+.w70 {
+  width: 70%;
+}
+/* ----- 宽度结束-----*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: inherit;
+  font-weight: bold;
+  color: inherit;
+  text-rendering: optimizelegibility;
 }

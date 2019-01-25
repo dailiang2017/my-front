@@ -7,6 +7,7 @@ import Login from '@/components/Login'
 import Home from '@/components/Home'
 import Intro from '@/components/intro/Intro'
 import constant from '../store/modules/constant'
+import global from '../common/views/Global'
 
 Vue.use(Router)
 
@@ -33,7 +34,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let token = api.cookie.getToken()
+  let token = sessionStorage.getItem(global.TOKEN_KEY)
   if (to.path == '/') {
     if (token) {
       // 如果访问登录页面，此时会话信息存在，则直接跳转到首页

@@ -5,6 +5,12 @@ const userStatusEnums = [
   {value: '1', label: '正常状态'},
   {value: '2', label: '已删除'}
 ]
+// 资源类型 1-menu 2-button
+const resourceTypeEnums = [
+  {value: '', label: '全部'},
+  {value: '1', label: '菜单'},
+  {value: '2', label: '按钮'}
+]
 
 export default {
   getListWithoutAll (enums) {
@@ -46,5 +52,6 @@ export default {
     return type
   },
 
-  userStatusEnums
+  userStatusEnums,
+  resourceTypeEnums
 }
