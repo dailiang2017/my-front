@@ -18,5 +18,12 @@ export default {
       url: '/api/user/deleteMenu/' + id,
       method: 'get'
     })
+  },
+  addMenu(data) {
+    return axios({
+      url: '/api/user/addMenu',
+      method: 'post',
+      data: data
+    })
   }
 }

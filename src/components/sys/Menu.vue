@@ -114,7 +114,8 @@
         },
         resourceTypeOptions: typeFormat.getListWithoutAll(typeFormat.resourceTypeEnums),
         editFlag: true,
-        treeId: ''
+        treeId: '',
+        level: ''
       }
     },
     created() {
@@ -138,6 +139,7 @@
       handleNodeClick: function(data) {
         if (data && data.id) {
           this.treeId = data.id
+          this.level = data.level
           this.sourceForm.name = data.name
           this.sourceForm.resourceType = data.resourceType + ''
           this.sourceForm.url = data.url
@@ -145,8 +147,15 @@
         this.editFlag = true
       },
       addResource: function() {
-        this.reset()
-        this.editFlag = false
+        if (this.treeId) {
+          this.reset()
+          this.editFlag = false
+        } else {
+          this.$message({
+            message: '请选择一个节点',
+            type: 'warning'
+          })
+        }
       },
       editResource: function() {
         if (this.treeId) {
@@ -162,7 +171,11 @@
         if (this.treeId) {
           this.$api.menu.deleteMenu(this.treeId).then((resp) => {
             if (resp.status === 200 && resp.data.success === true) {
-              this.menuData = resp.data.data
+              this.$message({
+                message: '操作成功',
+                type: 'success'
+              })
+              this.queryMenuTree()
             }
           })
         } else {
@@ -175,6 +188,18 @@
       save: function () {
         this.$refs['sourceForm'].validate((valid) => {
           if (valid) {
+            let menuInfo = this.sourceForm
+            menuInfo.parentId = this.treeId
+            menuInfo.level = Number(this.level) + 1
+            this.$api.menu.addMenu(menuInfo).then((resp) => {
+              if (resp.status === 200 && resp.data.success === true) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                this.queryMenuTree()
+              }
+            })
           }
         })
       },
