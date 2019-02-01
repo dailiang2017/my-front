@@ -19,7 +19,7 @@ export default {
     return {
       loading: false,
       loginForm: {
-        username: 'dailiang',
+        username: 'admin',
         password: '123456'
       },
       fieldRules: {
