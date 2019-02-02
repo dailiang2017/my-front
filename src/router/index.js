@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Cookies from 'js-cookie'
-import api from '@/common/js/api'
+import api from '@/http/interface'
 import store from '@/store/index'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import Intro from '@/components/intro/Intro'
 import constant from '../store/modules/constant'
 import global from '../common/views/Global'
+import Error from '@/components/error/Error'
 
 Vue.use(Router)
 
@@ -29,7 +29,12 @@ const router = new Router({
           component: Intro
         }
       ]
-    }
+    },
+    {
+      path: '/error',
+      name: '错误',
+      component: Error
+    },
   ]
 })
 

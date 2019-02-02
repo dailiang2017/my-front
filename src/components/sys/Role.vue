@@ -46,10 +46,10 @@
         <el-form-item label="ID" prop="id" v-if="false">
           <el-input v-model="roleForm.id" :disabled="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="角色" prop="role">
           <el-input v-model="roleForm.role" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="realname">
+        <el-form-item label="描述" prop="description">
           <el-input v-model="roleForm.description" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -82,10 +82,11 @@
         columns: [
           {prop:"role", label:"角色", minWidth:120},
           {prop:"description", label:"描述", minWidth:120},
-          {prop:"createUser", label:"创建人", minWidth:100},
+          {prop:"creator", label:"创建人", minWidth:100},
           {prop:"createTime", label:"创建时间", minWidth:120, formatter:this.dateFormat}
         ],
         roleForm: {
+          id: '',
           role: '',
           description: ''
         },
@@ -106,7 +107,7 @@
     },
     methods: {
       queryPage: function() {
-        this.$http.post('/api/user/role/queryPage', this.form).then((resp) => {
+        this.$api.role.queryPage(this.form).then((resp) => {
           if (resp.status === 200 && resp.data.success === true) {
             this.roleList = resp.data.data ? resp.data.data.list || [] : []
             this.form.pageTotal = resp.data.data ? resp.data.data.total || 0 : 0
@@ -131,7 +132,7 @@
       handleDelete: function(data) {
         let ids = data.ids
         let id = ids[0]
-        this.$http.get('/api/user/delete/' + id).then((resp) => {
+        this.$api.role.delete(id).then((resp) => {
           if(resp.status === 200 && resp.data.success === true) {
             this.$message({ message: '操作成功', type: 'success' })
             this.dialogVisible = false
@@ -146,7 +147,7 @@
         this.operation = true
         this.$nextTick(()=>{
           this.$refs['roleForm'].resetFields();
-          this.userFormClear()
+          this.roleFormClear()
         })
       },
       submitForm: function () {
@@ -154,18 +155,11 @@
         this.$refs['roleForm'].validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
-              // 新增
-              let url = '/api/user/insert'
-              let id = params.id
-              if (id) {
-                // 编辑
-                url = '/api/user/update'
-              }
-              this.$http.post(url, params).then((resp) => {
+              this.$api.role.insertOrUpdate(params).then((resp) => {
                 if(resp.status === 200 && resp.data.success === true) {
                   this.$message({ message: '操作成功', type: 'success' })
                   this.dialogVisible = false
-                  this.$refs['roleForm'].resetFields()
+                  this.$refs['userForm'].resetFields()
                   this.queryPage()
                 } else {
                   this.$message({message: '操作失败, ' + resp.data.msg, type: 'error'})

@@ -39,7 +39,7 @@ export default {
         if (valid) {
           this.loading = true
           let userInfo = {username: this.loginForm.username, password: this.loginForm.password}
-          this.$http.post('/api/user/login', userInfo).then((resp) => {
+          this.$api.login.login(userInfo).then((resp) => {
             if (resp.status === 200 && resp.data.success === true) {
               this.$store.commit('setMenuRouteLoaded', false) // 要求重新加载导航菜单
               sessionStorage.setItem(this.$global.TOKEN_KEY, resp.data.data)

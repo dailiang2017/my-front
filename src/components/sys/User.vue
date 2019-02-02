@@ -106,7 +106,7 @@
     },
     methods: {
       queryPage: function() {
-        this.$http.post('/api/user/queryUserPage', this.form).then((resp) => {
+        this.$api.user.queryUserPage(this.form).then((resp) => {
           if (resp.status === 200 && resp.data.success === true) {
             this.userList = resp.data.data ? resp.data.data.list || [] : []
             this.form.pageTotal = resp.data.data ? resp.data.data.total || 0 : 0
@@ -136,7 +136,7 @@
       handleDelete: function(data) {
         let ids = data.ids
         let id = ids[0]
-        this.$http.get('/api/user/delete/' + id).then((resp) => {
+        this.$api.user.delete(id).then((resp) => {
           if(resp.status === 200 && resp.data.success === true) {
             this.$message({ message: '操作成功', type: 'success' })
             this.dialogVisible = false
@@ -159,14 +159,7 @@
         this.$refs['userForm'].validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
-              // 新增
-              let url = '/api/user/insert'
-              let id = params.id
-              if (id) {
-                // 编辑
-                url = '/api/user/update'
-              }
-              this.$http.post(url, params).then((resp) => {
+              this.$api.user.insertOrUpdate(params).then((resp) => {
                 if(resp.status === 200 && resp.data.success === true) {
                   this.$message({ message: '操作成功', type: 'success' })
                   this.dialogVisible = false

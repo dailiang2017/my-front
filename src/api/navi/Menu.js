@@ -1,26 +1,26 @@
-import axios from 'axios'
+import api from '../../http/api'
 
 export default {
   queryUserMenu() {
-    return axios({
+    return api({
       url: '/api/user/queryUserMenu',
       method: 'get'
     })
   },
   queryMenuTree() {
-    return axios({
+    return api({
       url: '/api/user/queryMenuTree',
       method: 'get'
     })
   },
   deleteMenu(id) {
-    return axios({
+    return api({
       url: '/api/user/deleteMenu/' + id,
       method: 'get'
     })
   },
   addMenu(data) {
-    return axios({
+    return api({
       url: '/api/user/addMenu',
       method: 'post',
       data: data

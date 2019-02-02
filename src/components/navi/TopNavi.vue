@@ -64,8 +64,9 @@
           type: "warning"
         })
           .then(() => {
-            this.$http.post('/api/user/loginOut').then((resp) => {
+            this.$api.user.loginOut().then((resp) => {
               if (resp.status === 200 && resp.data.success === true) {
+                sessionStorage.removeItem(this.$global.TOKEN_KEY)
                 this.$router.push("/")
               }
             })
