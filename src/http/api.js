@@ -1,5 +1,6 @@
 import axios from 'axios'
 import global from "../common/views/Global"
+import key from "../common/views/StorageKey"
 import router from '@/router'
 
 export default function $axios (options) {
@@ -39,19 +40,13 @@ export default function $axios (options) {
               break
             case 401:
               // 该用户没有该权限
-              router.push({name : '/error',
-                  params: {
-                    code: '401', msg: err.response.data
-                  }
-                })
+              window.localStorage.setItem(key.error_key,err.response.data)
+              router.push('/error')
               break
             case 600:
               // 该账户已在其它设备登录，请先退出。如果此登录非您本人操作，请联系客服申诉。
-              router.push({name : '/error',
-                params: {
-                  code: '600', msg: err.response.data
-                }
-              })
+              window.localStorage.setItem(key.error_key,err.response.data)
+              router.push('/error')
               break
             case 601:
               // 登录过期，请重新登录

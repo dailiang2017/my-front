@@ -9,6 +9,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/iconfont/iconfont.css'
 import '../static/css/main.css'
 import global from './common/views/Global'
+import key from './common/views/StorageKey'
 import store from './store'
 import api from './http'
 import i18n from './i18n'
@@ -19,6 +20,7 @@ Vue.use(api)
 
 // axios.defaults.baseURL=global.baseurl
 Vue.prototype.$global = global
+Vue.prototype.$key = key
 
 /* eslint-disable no-new */
 new Vue({

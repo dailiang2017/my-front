@@ -2,10 +2,10 @@
   <div class="site-wrapper site-page--not-found">
     <div class="site-content__wrapper">
       <div class="site-content">
-        <h2 class="not-found-title">{{code}}</h2>
+        <!--<h2 class="not-found-title">{{code}}</h2>-->
         <p class="not-found-desc">{{msg}}</p>
         <el-button @click="$router.go(-1)">返回上一页</el-button>
-        <el-button type="primary" class="not-found-btn-gohome" @click="$router.push('/')">进入登录页</el-button>
+        <el-button type="primary" class="not-found-btn-gohome" @click="to_login">进入登录页</el-button>
       </div>
     </div>
   </div>
@@ -15,8 +15,7 @@
   export default {
     data () {
       return {
-        msg: '',
-        code: ''
+        msg: ''
       }
     },
     created() {
@@ -24,10 +23,11 @@
     },
     methods: {
       getRouterData() {
-        this.msg = this.$route.params.msg
-        this.code = this.$route.params.code
+        this.msg = window.localStorage.getItem(this.$key.error_key)
         console.log('msg', this.msg)
-        console.log('code', this.code)
+      },
+      to_login() {
+        this.$router.push('/')
       }
 
     }
